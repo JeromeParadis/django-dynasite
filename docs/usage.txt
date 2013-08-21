@@ -50,6 +50,16 @@ Then, in your template, you have access to the 'dynasite' variable:
     dynasite.site  -> returns the current site
     dynasite.site_url  -> returns the current site's complete url. Takes into account if in secure mode or not.
 
+Replace cache middleware to take into account varying host names
+=============
+
+By default, Django uses the full path of pages when creating keys for caching. However, it doesn't take into account the full URI when building the keys. If page templates change by host name, change your caching middleware:
+
+    MIDDLEWARE_CLASSES = (
+        'dynasite.middleware.UpdateCacheMiddleware',
+        ...
+        'dynasite.middleware.FetchFromCacheMiddleware',
+        ...
 
 LICENSE
 =======
