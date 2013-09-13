@@ -12,6 +12,8 @@ def get_current_site(request):
         return Site.objects.get_current()
 
     host = request.get_host()
+    if host == 'testserver' and hasattr(settings, 'DEFAULT_SITE_ID'):
+        return Site.objects.get(pk=settings.DEFAULT_SITE_ID)
 
     # Get from host cache if exists
     # -----------------------
