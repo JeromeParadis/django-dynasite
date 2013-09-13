@@ -4,7 +4,7 @@ setup(
     name="django-dynasite",
     version=__import__("dynasite").__version__,
     description="Tools to dynamically manage multiple Django Web sites in a single app the way you need to.",
-    long_description=open("docs/usage.txt").read(),
+    #long_description=open("docs/usage.txt").read(),
     author="Jerome Paradis",
     author_email="jparadis@paradivision.com",
     url="http://github.com/JeromeParadis/django-dynasite",
