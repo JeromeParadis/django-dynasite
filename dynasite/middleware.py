@@ -1,8 +1,7 @@
 from django.conf import settings
-from django.core.cache import get_cache, DEFAULT_CACHE_ALIAS
+from django.core.cache import caches, DEFAULT_CACHE_ALIAS
 from django.utils.cache import patch_response_headers, get_max_age
 from cache import get_cache_key, learn_cache_key
-
 
 class UpdateCacheMiddleware(object):
     """
@@ -18,7 +17,7 @@ class UpdateCacheMiddleware(object):
         self.key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
         self.cache_anonymous_only = getattr(settings, 'CACHE_MIDDLEWARE_ANONYMOUS_ONLY', False)
         self.cache_alias = settings.CACHE_MIDDLEWARE_ALIAS
-        self.cache = get_cache(self.cache_alias)
+        self.cache = caches[self.cache_alias]
 
     def _session_accessed(self, request):
         try:
@@ -79,7 +78,7 @@ class FetchFromCacheMiddleware(object):
         self.key_prefix = settings.CACHE_MIDDLEWARE_KEY_PREFIX
         self.cache_anonymous_only = getattr(settings, 'CACHE_MIDDLEWARE_ANONYMOUS_ONLY', False)
         self.cache_alias = settings.CACHE_MIDDLEWARE_ALIAS
-        self.cache = get_cache(self.cache_alias)
+        self.cache = caches[self.cache_alias]
 
     def process_request(self, request):
         """
@@ -152,5 +151,6 @@ class CacheMiddleware(UpdateCacheMiddleware, FetchFromCacheMiddleware):
         else:
             self.cache_anonymous_only = cache_anonymous_only
 
-        self.cache = get_cache(self.cache_alias, **cache_kwargs)
+        # self.cache = get_cache(self.cache_alias, **cache_kwargs)
+        self.cache = caches[self.cache_alias]
         self.cache_timeout = self.cache.default_timeout
