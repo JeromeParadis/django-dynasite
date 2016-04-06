@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.template import RequestContext
-from django.contrib.sites.requests import Site, RequestSite
+from django.contrib.sites.models import Site
+from django.contrib.sites.requests import RequestSite
 
 from models import get_current_site
 
